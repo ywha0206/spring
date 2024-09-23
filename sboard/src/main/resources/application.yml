@@ -1,0 +1,63 @@
+
+logging:
+    file:
+        name: /logs/sboard.log
+    level:
+        jdbc:
+            resultsettable: debug
+            sqlonly: debug
+            sqltiming: debug
+        org:
+            hibernate:
+                orm:
+                    jdbc:
+                        bind: trace
+                sql: debug
+        root: info
+server:
+    port: 8081
+    servlet:
+        context-path: /sboard
+        encoding:
+            force-response=true:
+spring:
+    application:
+        name: sboard
+        version: 0.0.1
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        password: "!Qw234rt"
+        url: jdbc:mysql://localhost:3306/jboard
+        username: jboard
+    devtools:
+        livereload:
+            enabled: true
+    jpa:
+        database: mysql
+        hibernate:
+            ddl-auto: update
+            naming:
+                physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        properties:
+            hibernate:
+                format_sql: true
+                show_sql: true
+    mail:
+        host: smtp.gmail.com # 1
+        port: 587 # 2
+        username: ppyyhh3285@gmail.com # 3
+        password: fbax fmxo pxup eook # 4
+        properties:
+            mail:
+                smtp:
+                    auth: true # 5
+                    timeout: 5000 # 6
+                    starttls:
+                        enable: true # 7
+                        required: true
+                        connectiontimeout: 5000
+                        timeout: 5000
+                        writetimeout: 5000
+                        auth-code-expiration-millis: 300000  # 5 * 60 * 1000 == 5분
+    thymeleaf:
+        prefix: classpath:/templates

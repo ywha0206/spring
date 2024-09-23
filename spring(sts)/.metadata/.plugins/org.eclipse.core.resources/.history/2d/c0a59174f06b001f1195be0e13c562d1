@@ -1,0 +1,5 @@
+package com.ch06.dto;
+
+public class User1Dto {
+
+}

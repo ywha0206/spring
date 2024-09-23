@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <!--
+      날짜 : 2024/09/06
+      이름 : 김철학
+      내용 : 6장 스프링부트 실습하기
+    -->
+</head>
+<body>
+  <h3>ch06.Spring Boot</h3>
+
+  <a href="/ch06/sub1/hello">hello</a>
+  <a href="/ch06/sub1/welcome">welcome</a>
+  <a href="/ch06/sub1/greeting">greeting</a>
+  
+  	<h4>타임리프 출력</h4>
+		
+    <h4>타임리프 조건문</h4>
+  
+	<h4>타임리프 반복문</h4>
+  
+	<h4>타임리프 링크</h4>
+  
+	<h4>타임리프 include</h4>
+
+
+</body>
+</html>
