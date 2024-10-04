@@ -19,15 +19,15 @@ server:
     servlet:
         context-path: /sboard
         encoding:
-            force-response=true:
+            force-response: true
 spring:
     application:
         name: sboard
-        version: 0.0.1
+        version: ${ext.version}
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
         password: "!Qw234rt"
-        url: jdbc:mysql://localhost:3306/jboard
+        url: jdbc:mysql://13.124.168.217:3306/jboard
         username: jboard
     devtools:
         livereload:
@@ -61,3 +61,8 @@ spring:
                         auth-code-expiration-millis: 300000  # 5 * 60 * 1000 == 5분
     thymeleaf:
         prefix: classpath:/templates
+
+    servlet:
+        multipart:
+            location: uploads/
+            max-file-size: 10MB

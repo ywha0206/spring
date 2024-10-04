@@ -5,6 +5,7 @@ import com.sboard.dto.TermsDTO;
 import com.sboard.dto.UserDTO;
 import com.sboard.service.EmailService;
 import com.sboard.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,21 +44,20 @@ public class UserController {
     public String terms(Model model){
         TermsDTO terms = userService.selectTerms();
         model.addAttribute("terms", terms);
-
+        model.addAttribute(appInfo);
         return "/user/terms";
     }
 
     @GetMapping("/user/register")
-    public String register(){
+    public String register(Model model){
+        model.addAttribute(appInfo);
         return "/user/register";
     }
 
     @GetMapping( "/user/checkUser")
-    public ResponseEntity<Map<String,Object>> checkUser(@RequestParam("uid")String uid){
-        Map<String, Object> response = new HashMap<>();
+    public ResponseEntity<Boolean> checkUser(@RequestParam("uid")String uid){
         boolean exists = userService.checkUserIdExists(uid);
-        response.put("result", exists ? 1 : 0);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(exists);
     }
 
     @GetMapping( "/user/checkUserNick")
@@ -78,23 +78,40 @@ public class UserController {
         response.put("result", exists ? 1 : 0);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
     @GetMapping( "/user/checkUserEmail")
-    public ResponseEntity<Map<String,Object>> checkUserEmail(@RequestParam("email")String email, Model model){
-        Map<String, Object> response = new HashMap<>();
+    public ResponseEntity<Boolean> checkUserEmail(HttpSession session,
+            @RequestParam("email")String email, Model model){
         boolean exists = userService.checkUserEmailExists(email);
-        response.put("result", exists ? 1 : 0);
 
-            //이메일 인증번호 발송하기
-            String code = emailService.sendEmailCode(email);
+        //이메일 인증번호 발송하기
+        int code =  emailService.sendEmailCode(session, email);
+        model.addAttribute("code", code);
 
-            //코드 세션 저장
-        model.addAttribute("authCode", code);
+        return ResponseEntity.ok(exists);
+    }
+    @ResponseBody
+    @PostMapping("/user/checkUserEmail")
+    public ResponseEntity<?> checkEmail(HttpSession session, @RequestBody Map<String, String> jsonData) {
 
-        return ResponseEntity.ok(response);
+        String receiveCode = jsonData.get("code");
+        String sessionCode = (String) session.getAttribute("code");
+        if(sessionCode.equals(receiveCode)){
+            // Json 생성
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("result", true);
+
+            return ResponseEntity.ok().body(resultMap);
+        }else{
+            // Json 생성
+            Map<String, Object> resultMap = new HashMap<>();
+            resultMap.put("result", false);
+
+            return ResponseEntity.ok().body(resultMap);
+        }
     }
 
-
-    @PostMapping("/user/register")
+        @PostMapping("/user/register")
     public String register(UserDTO userDTO){
         userService.insertUser(userDTO);
         return "redirect:/user/login";
