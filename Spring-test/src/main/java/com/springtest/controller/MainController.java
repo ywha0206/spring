@@ -1,7 +1,5 @@
-package com.sboard.controller;
+package com.springtest.controller;
 
-import com.sboard.entity.User;
-import com.sboard.security.MyUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,9 +18,13 @@ public class MainController {
         //로그인 사용자 인증객체 가져오기
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
+        /*
         MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
 
+
+        if(){
+
+        }
 
         User user = null;
         if (myUserDetails != null) {
@@ -30,8 +32,8 @@ public class MainController {
         }
 
 
-
-        model.addAttribute("user", user);
+         */
+        //model.addAttribute("user", user);
 
         return "index";
     }
